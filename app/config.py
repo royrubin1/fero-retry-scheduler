@@ -14,6 +14,8 @@ class Settings:
     http_timeout_seconds: float = 10
     lease_seconds: float = 60
     poll_interval_seconds: float = 1
+    api_host: str = "127.0.0.1"  # 0.0.0.0 inside a container
+    api_port: int = 8000
 
     def __post_init__(self):
         # The lease has to outlast an attempt, or a slow but healthy worker loses its job
