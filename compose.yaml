@@ -1,0 +1,21 @@
+services:
+  api:
+    build: .
+    ports: ["8000:8000"]
+    volumes: [data:/data]
+
+  worker:
+    build: .
+    command: ["python", "-m", "app.worker"]
+    volumes: [data:/data]
+    deploy:
+      replicas: 2  # two workers on the same database
+
+  downstream:  # fake downstream for the demo, reachable from the workers as http://downstream:9000
+    build: .
+    command: ["python", "demo/downstream.py"]
+    environment:
+      HOST: 0.0.0.0
+
+volumes:
+  data:
